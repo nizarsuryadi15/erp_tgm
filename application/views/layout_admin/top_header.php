@@ -14,7 +14,20 @@
                 </li>
                 <li class="nav-item d-none d-md-block"><a href="<?= base_url('dashboard')?>" class="nav-link">Dashboard</a></li>
                 <?php 
-                    foreach ($submenu as $sm){
+                $controller = $this->uri->segment(1);
+                $submenu = $this->db->select('link_submenu, nama_submenu')
+                                    ->from('submenu')
+                                    ->join('menu', 'submenu.id_menu = menu.id')
+                                    ->where('menu.link', $controller)
+                                    ->get()->result();
+                if(empty($submenu)){
+                    $submenu = $this->db->select('link_submenu, nama_submenu')
+                                        ->from('submenu')
+                                        ->join('menu', 'submenu.id_menu = menu.id')
+                                        ->where('menu.link', 'dashboard')
+                                        ->get()->result();
+                }
+                    foreach (@$submenu as $sm){
                 ?>
                     <li class="nav-item d-none d-md-block">
                         <a href="<?= base_url($controller.'/'.$sm->link_submenu)?>" class="nav-link">

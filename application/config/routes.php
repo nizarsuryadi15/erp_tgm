@@ -81,7 +81,9 @@ $route['gudang/laporan-barang-masuk']           = 'gudang/laporan_barang_masuk';
 $route['gudang/laporan-barang-keluar']          = 'gudang/laporan_barang_keluar';
 $route['gudang/stok-opname']                    = 'gudang/stokopname';
 $route['gudang/barang-masuk']                   = 'gudang/barang_masuk';
-$route['gudang/barang-keluar']                   = 'gudang/barang_keluar';
+$route['gudang/barang-keluar']                  = 'gudang/barang_keluar';
+$route['gudang/cetak-barcode-semua']            = 'gudang/cetak_barcode_semua'; // Cetak semua barcode bahan
+
 
 // Sistem Kasir
 $route['transaksi/daftar-bahan']                = 'bahan';

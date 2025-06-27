@@ -3,9 +3,15 @@
     {
         function getBahan($kode){
             $this->db->where('tbl_bahan.bahan_id',$kode);
-            $this->db->join('tbl_stok_bahan','tbl_bahan.bahan_id = tbl_stok_bahan.bahan_id');
+            $this->db->join('tbl_stok_gudang','tbl_bahan.bahan_id = tbl_stok_gudang.bahan_id');
             return $this->db->get('tbl_bahan');
         }
+        
+        function getAllBahan(){
+            $this->db->join('tbl_stok_gudang','tbl_bahan.bahan_id = tbl_stok_gudang.bahan_id');
+            $this->db->join('tbl_satuan','tbl_bahan.satuan_gudang = tbl_satuan.satuan_id');
+            return $this->db->get('tbl_bahan');
+        } 
 
         function stokjasa($perusahaan){
             $this->db->where('perusahaan_id', $perusahaan);
@@ -19,6 +25,14 @@
                                             tbl_satuan c on b.satuan_gudang = c.satuan_id
                                                 where ((stok_awal + stok_tambah) - stok_kurang) <= stok_min");
             // return $this->db->get('tbl_stok_gudang');
+        }
+
+        function getSonDetail($id){
+            $this->db->where('son_id', $id);
+            $this->db->join('tbl_bahan','tbl_bahan.bahan_id = tbl_stok_opname.bahan_id');
+            $this->db->join('tbl_satuan','tbl_bahan.satuan_gudang = tbl_satuan.satuan_id');
+           
+            return $this->db->get('tbl_stok_opname');
         }
 
         function stokjasa_masuk($perusahaan){
@@ -113,7 +127,7 @@
             $bulanini  = date('Y-m');
             $this->db->like('son_tgl',$bulanini);
             $this->db->join('tbl_bahan','tbl_bahan.bahan_id = tbl_stok_opname.bahan_id');
-            $this->db->join('tbl_satuan','tbl_bahan.satuan_id = tbl_satuan.satuan_id');
+            $this->db->join('tbl_satuan','tbl_bahan.satuan_gudang = tbl_satuan.satuan_id');
             return $this->db->get('tbl_stok_opname');
         }
 

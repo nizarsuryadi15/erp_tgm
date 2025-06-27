@@ -20,8 +20,9 @@
                     <button class="btn btn-primary">Produk Bahan: <?= $jumlah_product ?></button>
                     <button class="btn btn-secondary">Produk Jasa: <?= $jumlah_jasa ?></button>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalInputData">
-                        Tambah Bahan Produksi
+                         <i class="bi bi-plus"></i>Tambah Bahan Produksi
                     </button>
+                    <a href="<?= base_url('gudang/cetak-barcode-semua') ?>" class="btn btn-info">  <i class="bi bi-upc-scan"></i> Cetak Semua Barcode</a>
                 </div>
             </div>
         <div class="card-body">

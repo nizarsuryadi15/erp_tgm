@@ -253,6 +253,32 @@
             $this->load->view('layout_admin/footer');
         }
 
+        function data_son(){
+            $userid             = $this->session->userdata('id');
+            $table              = 'tbl_bahan';
+            $controller         = $this->uri->segment(1);
+            $conf  = array(
+                'perusahaan'    => $this->db->get_where('tbl_perusahaan', array('id_perusahaan'=> $this->session->userdata('perusahaan_id')))->row_array(),
+                'hakakses'      => $this->db->get_where('tbl_divisi', array('divisi_id'=> $this->session->userdata('level')))->row_array(),
+            );
+
+            $data = array(
+                'controller'    => $this->uri->segment(1),
+                'function'      => $this->uri->segment(2),
+                'title'         => 'Stok Opname',
+                'table'         => 'tbl_kategori',
+                'bulanini'      => date('m'),
+                'tampilData'    => $this->M_gudang->getDataStokOpname()->result(),
+                'total_rows'    => $this->M_gudang->getDataStokOpname()->num_rows(),
+                'bahan'         => $this->db->get('tbl_bahan')->result(),
+                'logo'          => $conf['perusahaan']['logo'],
+                'jml_stok_minim'    => $this->M_gudang->stok_minim()->num_rows(),    
+                'level'             => $this->db->get_where('users', array('user_id'=>$userid))->row_array(),
+                'menu'                  => $this->db->get('menu')->result(),
+                'submenu'               => $this->M_master->getmenu($controller)->result(),
+            );
+        }
+
         public function stokopname()
         {
             $userid         = $this->session->userdata('id');
@@ -278,7 +304,9 @@
                 'bulanini'          => date('Y-m'),
                 'tampilData'        => $this->M_gudang->getDataStokOpname()->result(),
                 'total_rows'        => $this->M_gudang->getDataStokOpname()->num_rows(),
-                'bahan'             => $this->db->get('tbl_bahan')->result(),
+                'bahan'             => $this->db
+                                                ->where('bahan_id NOT IN (SELECT bahan_id FROM tbl_stok_opname WHERE son_tgl = "'.date('Y-m-d').'")', null, false)
+                                                ->get('tbl_bahan')->result(),
                 'logo'              => $conf['perusahaan']['logo'],
                 'jml_stok_minim'    => $this->M_gudang->stok_minim()->num_rows(),
                 'level'             => $this->db->get_where('users', ['user_id' => $userid])->row_array(),
@@ -300,6 +328,11 @@
             // $this->load->view('layout_admin/breadcumb', $data);
             $this->load->view('admin/gudang/son/dataSon', $data);
             $this->load->view('layout_admin/footer');
+        }
+
+        function cetakSonDetail($id){
+            $data['detail'] = $this->M_gudang->getSonDetail($id)->row();
+            $this->load->view('admin/gudang/son/cetak_detail', $data);
         }
 
 
@@ -1013,6 +1046,8 @@
                     $where = [
                         'bahan_id'      => $data->bahan_id,
                     ];
+                    // Update stok gudang
+                    $cekStok = $this->M_gudang->getStok($data->bahan_id)->row_array();
                     $updateStok = [
                         'stok_tambah'   => $cekStok['stok_tambah'] + $data->qty,
                     ];      
@@ -1154,6 +1189,11 @@
             // $this->load->view('layout_admin/breadcumb', $data);
             $this->load->view('admin/gudang/monitoring', $data);
             $this->load->view('layout_admin/footer');
+        }
+
+        function cetak_barcode_semua(){
+            $data['bahan'] = $this->M_gudang->getAllBahan()->result();
+            $this->load->view('admin/gudang/cetak_barcode', $data);
         }
 
     }
