@@ -45,9 +45,34 @@
                             $kurang_bayar = $dt->grand_total - $total_bayar;
                             $qdetail      = $this->M_transaksi->getDetailPesan($dt->nospk)->result();
                             $item         = count($qdetail);
+
+                            if ($dt->status == '1')
+                            {
+                                $tr = 'table-danger';
+                            }else if ($dt->status == '2')
+                            {
+                                $tr = 'table-warning';
+                            }else if ($dt->status == '3')
+                            {
+                                $tr = 'table-success';
+                            }else if ($dt->status == '4')
+                            {
+                                $tr = 'table-info';
+                            }else if ($dt->status == '5')
+                            {
+                                $tr = 'table-secondary';
+                            }else if ($dt->status == '6')
+                            {
+                                $tr = 'table-dark';
+                            }else{
+                                $tr = '';
+                            }
+                            
                         ?>
-                        <tr>
-                            <td><?= $dt->nospk ?></td>
+                        <tr class="<?= isset($tr) ? $tr : '' ?>">
+                            <td>
+                                <?= $dt->nospk ?>
+                            </td>
                             <td>
                                 <?= date_indo($dt->tgl_pemesanan) ?><br>
                                 <small><?= date_indo($dt->jam_pemesanan) ?></small>

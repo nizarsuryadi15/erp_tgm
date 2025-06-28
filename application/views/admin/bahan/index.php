@@ -76,7 +76,7 @@
                                     <i class="bi bi-pencil-square"></i>
                                 </button>
 
-                                <button type="button" class="btn btn-default btn-sm btn-edit-barcode"
+                                <button type="button" class="btn btn-primary btn-sm btn-edit-barcode" title="Edit Barcode"
                                     data-bs-toggle="modal"
                                     data-bs-target="#modaleditBarcode"
                                     data-id="<?= $dt->bahan_id ?>"
@@ -84,6 +84,9 @@
                                    
                                    <i class="bi bi-upc-scan"></i>
                                 </button>
+                                <a href="<?= base_url('gudang/cetak-barcode/'.$dt->bahan_id) ?>" class="btn btn-success btn-sm" title="Cetak Barcode">
+                                    <i class="bi bi-printer"></i>
+                                </a>
                                 <a href="javascript:void(0);" class="btn btn-danger btn-sm btn-delete"
                                     data-url="<?= base_url('gudang/hapus-bahan/'.$dt->bahan_id) ?>">
                                     <i class="bi bi-trash3"></i>

@@ -1195,6 +1195,43 @@
             $data['bahan'] = $this->M_gudang->getAllBahan()->result();
             $this->load->view('admin/gudang/cetak_barcode', $data);
         }
+        function cetak_barcode($bahanId){
+            $data['bahan'] = $this->M_gudang->getBahan($bahanId)->row_array();
+            $this->load->view('admin/gudang/get_cetak_barcode', $data);
+        }
+
+        function updateStokSon(){
+            $userid             = $this->session->userdata('id');
+            $controller         = $this->uri->segment(1);
+            $bahan_id           = $this->input->post('bahan_id');
+            $son_real           = $this->input->post('son_real');
+            $son_tgl            = $this->input->post('son_tgl');
+
+            // Cek apakah stok opname sudah ada untuk bahan dan tanggal ini
+            $cekSon = $this->M_gudang->cekSon($bahan_id, $son_tgl)->num_rows();
+
+            if ($cekSon > 0) {
+                // Jika sudah ada, update data
+                $where = array(
+                    'bahan_id' => $bahan_id,
+                );
+                $update = array(
+                    'stok_awal'     => $son_real,
+                    'stok_tambah'   => 0,
+                    'stok_kurang'   => 0,
+                );
+                $updateSon = array(
+                    'verifikasi'      => '1',
+                );
+                
+                $this->M_gudang->updateData('tbl_stok_opname', $where, $updateSon);
+                $this->M_gudang->updateData('tbl_stok_gudang', $where, $update);
+            } 
+
+            redirect($controller.'/stokopname');
+
+            
+        }
 
     }
    

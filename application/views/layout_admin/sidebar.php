@@ -37,6 +37,12 @@
             </p>
             </a>
         </li>
+        <?php 
+        $menu = $this->db->get_where('menu', ['level' => $this->session->userdata('level')])->result();
+        if (empty($menu)) {
+            echo '<li class="nav-item"><a href="#" class="nav-link">No Menu Available</a></li>';
+        }
+        ?>
         <li class="nav-divider my-1 border-top"></li>
         <?php foreach($menu as $mn): ?>
             <li class="nav-item">

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cetak Barcode Semua Bahan</title>
+    <title>Cetak Barcode</title>
     <style>
         body { font-family: Arial, sans-serif; }
         .barcode-table { width: 100%; border-collapse: collapse; }

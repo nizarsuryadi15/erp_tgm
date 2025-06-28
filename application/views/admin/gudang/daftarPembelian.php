@@ -1,10 +1,13 @@
 <div class="app-content d-block">
     <div class="container-fluid py-3">
         <div class="card shadow-sm">
-            <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="card-header">
                 <!-- <h5 class="mb-0">Data Pembelian Barang</h5> -->
-                <a href="<?= base_url('gudang/add_barang_masuk') ?>" class="btn btn-dark btn-block">
-                    <i class="bi bi-cart-plus"></i> Faktur Pembelian Barang
+                 <button type="button" class="btn btn-secondary" onclick="window.history.back();">
+                    <i class="bi bi-arrow-left"></i> Kembali
+                </button>
+                <a href="<?= base_url('gudang/add_barang_masuk') ?>" class="btn btn-primary btn-block">
+                    <i class="bi bi-cart-plus"></i> Tambah Faktur Pembelian Barang
                 </a>
             </div>
 

@@ -128,15 +128,7 @@
         <small>Kinerja</small>
       </a>
     </div>
-    <div class="col-6">
-      <a href="<?= base_url('dashboard') ?>" 
-        id="btnErp"
-        class="btn btn-light w-100 py-3 shadow-sm d-flex flex-column align-items-center justify-content-center rounded">
-        <i class="bi bi-box-arrow-up text-success"></i>
-        <small>ERP Sistem</small>
-      </a>
-
-    </div>
+    
     <?php 
       if ($this->session->userdata('level')=='17'){
     ?>
@@ -147,8 +139,54 @@
       </a>
     </div>
     <?php 
+      }else if ($this->session->userdata('level')=='5'){
+        ?>
+    <div class="col-12">
+      <a href="<?= base_url('gudang/index') ?>" class="btn btn-light w-100 py-3 shadow-sm d-flex flex-column align-items-center justify-content-center rounded">
+        <i class="bi bi-building text-danger"></i>
+        <small>ERP Sistem Gudang </small>
+      </a>
+    </div>
+    <?php
+      } else if ($this->session->userdata('level')=='1'){
+        ?>
+    <div class="col-12">
+      <a href="<?= base_url('dashboard') ?>" 
+        id="btnErp"
+        class="btn btn-light w-100 py-3 shadow-sm d-flex flex-column align-items-center justify-content-center rounded">
+        <i class="bi bi-box-arrow-up text-success"></i>
+        <small>ERP Sistem Administrator</small>
+      </a>
+
+    </div>
+    <?php
+      } else if ($this->session->userdata('level')=='2'){
+        ?>
+    <div class="col-12">
+      <a href="<?= base_url('dashboard') ?>" 
+        id="btnErp"
+        class="btn btn-light w-100 py-3 shadow-sm d-flex flex-column align-items-center justify-content-center rounded">
+        <i class="bi bi-box-arrow-up text-success"></i>
+        <small>ERP Sistem Deskprint</small>
+      </a>
+
+    </div>
+    <?php
+      }else if ($this->session->userdata('level')=='3'){
+        ?>
+    <div class="col-12">
+      <a href="<?= base_url('dashboard') ?>" 
+        id="btnErp"
+        class="btn btn-light w-100 py-3 shadow-sm d-flex flex-column align-items-center justify-content-center rounded">
+        <i class="bi bi-box-arrow-up text-success"></i>
+        <small>ERP Sistem kasir</small>
+      </a>
+
+    </div>
+    <?php
       }
     ?>
+  
   </div>
 </div>
 

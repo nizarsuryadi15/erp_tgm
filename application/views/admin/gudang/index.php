@@ -42,7 +42,7 @@
           <div>
             <h5 class="card-title mb-1">Data Barang Masuk</h5>
             <p class="card-text fw-bold"><?= $total_masuk ?></p>
-            <a href="<?= base_url('gudang/pembelian-barang') ?>" class="text-white text-uppercase small">View</a>
+            <a href="<?= base_url('gudang/barang-masuk') ?>" class="text-white text-uppercase small">View</a>
           </div>
         </div>
       </div>
@@ -57,7 +57,7 @@
           <div>
             <h5 class="card-title mb-1">Data Barang Keluar</h5>
             <p class="card-text fw-bold"><?= $total_keluar ?></p>
-            <a href="<?= base_url('gudang/pengiriman-barang') ?>" class="text-white text-uppercase small">View</a>
+            <a href="<?= base_url('gudang/barang-keluar') ?>" class="text-white text-uppercase small">View</a>
           </div>
         </div>
       </div>

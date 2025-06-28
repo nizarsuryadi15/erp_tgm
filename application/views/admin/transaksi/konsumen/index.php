@@ -1,9 +1,3 @@
-<!-- jQuery (jika kamu masih pakai plugin jQuery seperti DataTables) -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Bootstrap 5 Bundle (sudah termasuk Popper.js) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 <div class="app-content">
   <div class="container-fluid">
 
@@ -24,8 +18,8 @@
               <thead class="table-dark">
               <tr>
                 <th>No</th>
-                <th width="20%">No HP</th>
                 <th>Nama Lengkap</th>
+                <th width="20%">No HP</th>
                 <th width="30%">Alamat</th>
                 <th>Email</th>
                 <th>Status</th>
@@ -36,7 +30,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -77,6 +70,7 @@
 </div>
 
 
+<!-- Modal Edit Konsumen -->
 <div class="modal fade" id="modalEditKonsumen" tabindex="-1" role="dialog" aria-labelledby="modalEditLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <form method="POST" action="<?= base_url('konsumen/aksi_edit') ?>">
@@ -87,7 +81,8 @@
         </div>
 
         <div class="modal-body">
-            <input type="hidden" name="konsumen_id" id="edit_id">
+            <!-- Konsumen ID harus hidden agar tidak bisa diubah user -->
+            <input type="text" name="konsumen_id" id="edit_id" required>
 
             <div class="form-group">
                 <label>Nama Konsumen</label>
@@ -111,7 +106,7 @@
 
             <div class="form-group">
                 <label>Status</label>
-                <select name="status" id="edit_status" class="form-control">
+                <select name="status" id="edit_status" class="form-control" required>
                     <option value="1">Aktif</option>
                     <option value="0">Tidak Aktif</option>
                 </select>
@@ -126,10 +121,6 @@
     </form>
   </div>
 </div>
-
-
-
-
 
 <script>
 document.getElementById('formKonsumen').addEventListener('submit', function(e) {
@@ -146,12 +137,11 @@ document.getElementById('formKonsumen').addEventListener('submit', function(e) {
   }
 });
 
-
-
-let tableKonsumen; // simpan di global scope
+let tableKonsumen;
 
 $(document).ready(function() {
-    if (!$.fn.DataTable.isDataTable('#datatable-details')) {
+    // Perbaiki id datatable
+    if (!$.fn.DataTable.isDataTable('#datatable-detailss')) {
         tableKonsumen = $('#datatable-detailss').DataTable({
             processing: true,
             serverSide: true,
@@ -171,24 +161,41 @@ $(document).ready(function() {
                 { data: "konsumen_alamat" },
                 { data: "konsumen_email" },
                 { data: "status" },
-                { data: "aksi", orderable: false, searchable: false }
+                { 
+                    data: null,
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row) {
+                        return `
+                            <button type="button" class="btn btn-warning btn-sm btn-edit-konsumen"
+                                data-id     ="${row.konsumen_id}"
+                                data-nama   ="${row.konsumen_nama}"
+                                data-alamat ="${row.konsumen_alamat}"
+                                data-nohp   ="${row.konsumen_nohp}"
+                                data-email  ="${row.konsumen_email}"
+                                data-status ="${row.status}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalEditKonsumen"
+                            >
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                        `;
+                    }
+                }
             ]
         });
     }
 
-    // Delegasi klik tombol edit
+    // Delegasi klik tombol edit (pastikan event delegation pada document)
     $(document).on('click', '.btn-edit-konsumen', function() {
+        // Pastikan ID diisi ke input hidden, bukan ke input nama
         $('#edit_id').val($(this).data('id'));
         $('#edit_nama').val($(this).data('nama'));
         $('#edit_alamat').val($(this).data('alamat'));
         $('#edit_nohp').val($(this).data('nohp'));
         $('#edit_email').val($(this).data('email'));
         $('#edit_status').val($(this).data('status'));
+        $('#modalEditKonsumen').modal('show');
     });
 });
-
-
-
-
-
 </script>

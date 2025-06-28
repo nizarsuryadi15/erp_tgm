@@ -95,13 +95,7 @@
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
-                                <tr>
-                                    <th colspan="7">
-                                        <a href="<?= base_url('gudang/cetakSon/'.$bulanini) ?>" class="btn btn-primary btn-block">
-                                            Cetak Kartu Stok Opname <i class="fa fa-print"></i>
-                                        </a>
-                                    </th>
-                                </tr>
+                                
                                 <tr>
                                     <th>No</th>
                                     <th>Tanggal Stok Opname</th>
@@ -110,6 +104,7 @@
                                     <th>Stok Aplikasi</th>
                                     <th>Selisih</th>
                                     <th>Keterangan</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -161,13 +156,33 @@
                                             </a>
                                         <?php endif; ?>
                                     </td>
+                                    <td>
+                                        <?php 
+                                        if ($dt->verifikasi == 0) {
+                                           
+                                        ?>
+                                        <form action="<?= base_url('gudang/updateStokSon') ?>" method="post">
+                                            <input type="hidden" name="bahan_id" value="<?= $dt->bahan_id ?>">
+                                            <input type="hidden" name="son_tgl" value="<?= $dt->son_tgl ?>">
+                                            <input type="hidden" name="son_real" value="<?= $dt->son_real ?>" required>
+                                            <button type="submit" class="btn btn-sm btn-primary">Verifikasi</button>
+                                        </form>
+                                        <?php } else{
+                                            ?>
+                                            <strong class="text-success">Tervalidasi</strong>
+                                        <?php } ?>
+                                    </td>
                                 </tr>
                                 <?php endforeach; ?>
                                 <tr>
-                                    <td colspan="7">
+                                    <td colspan="8" class="text-start">
                                         <div class="alert alert-danger mb-0">
-                                            <strong>Data Tersimpan:</strong> Anda tidak dapat menghapus data yang telah tersimpan.
+                                    
+                                            <strong>Catatan:</strong> Stok Opname digunakan untuk mencocokkan stok fisik dengan stok aplikasi.
                                         </div>
+                                      
+                                       
+
                                     </td>
                                 </tr>
                             </tbody>

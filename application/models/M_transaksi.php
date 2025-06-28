@@ -279,18 +279,16 @@
 
         function getDataPemesanankasir($status){
             $perusahaan = $this->session->userdata('perusahaan_id');
-            // $user       = $this->session->userdata('id');
+            // $user = $this->session->userdata('id');
             $this->db->where('tbl_pemesanan.perusahaan_id', $perusahaan);
             // $this->db->where('tbl_pemesanan.deskprint_id', $user);
             $this->db->where('tbl_pemesanan.status_pembayaran', $status);
             $this->db->join('tbl_konsumen', 'tbl_konsumen.konsumen_id = tbl_pemesanan.konsumen_id');
             $this->db->join('users', 'users.user_id = tbl_pemesanan.deskprint_id');
-            $this->db->join('tbl_karyawan','tbl_karyawan.karyawan_id = users.karyawan_id');
+            $this->db->join('tbl_karyawan', 'tbl_karyawan.karyawan_id = users.karyawan_id');
             $this->db->join('tbl_jenis_transaksi', 'tbl_jenis_transaksi.id_jenis_transaksi = tbl_pemesanan.id_jenis_transaksi');
-            $this->db->join('tbl_marketplace', 'tbl_marketplace.marketplace_id = tbl_pemesanan.marketplace_id','left');
-            $this->db->join('tbl_pengiriman','tbl_pengiriman.id_pengiriman = tbl_pemesanan.id_pengiriman','left');
-            
-            // $this->db->join('tbl_pembayaran', 'tbl_pembayaran.nospk = tbl_pemesanan.nospk', 'left');
+            $this->db->join('tbl_marketplace', 'tbl_marketplace.marketplace_id = tbl_pemesanan.marketplace_id', 'left');
+            $this->db->join('tbl_pengiriman', 'tbl_pengiriman.id_pengiriman = tbl_pemesanan.id_pengiriman', 'left');
             $this->db->order_by('tbl_pemesanan.id', 'asc');
             return $this->db->get('tbl_pemesanan');
         }

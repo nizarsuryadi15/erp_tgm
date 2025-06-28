@@ -175,23 +175,31 @@
        
 
         public function aksi_edit()
-            {
-                $id = $this->input->post('konsumen_id');
+        {
+            $id = $this->input->post('konsumen_id', true);
+            $data = [
+                'konsumen_nama'   => $this->input->post('konsumen_nama', true),
+                'konsumen_alamat' => $this->input->post('konsumen_alamat', true),
+                'konsumen_nohp'   => $this->input->post('konsumen_nohp', true),
+                'konsumen_email'  => $this->input->post('konsumen_email', true),
+                'status'          => $this->input->post('status', true)
+            ];
 
-                $data = [
-                    'konsumen_nama'   => $this->input->post('konsumen_nama', true),
-                    'konsumen_alamat' => $this->input->post('konsumen_alamat', true),
-                    'konsumen_nohp'   => $this->input->post('konsumen_nohp', true),
-                    'konsumen_email'  => $this->input->post('konsumen_email', true),
-                    'status'          => $this->input->post('status', true)
-                ];
-
+            // Validasi input
+            if ($id && !empty($data['konsumen_nama'])) {
                 $this->db->where('konsumen_id', $id);
-                $this->db->update('tbl_konsumen', $data);
+                $update = $this->db->update('tbl_konsumen', $data);
 
-                $this->session->set_flashdata('success', 'Data konsumen berhasil diperbarui.');
-                redirect('konsumen');
+                if ($update) {
+                    $this->session->set_flashdata('success', 'Data konsumen berhasil diperbarui.');
+                } else {
+                    $this->session->set_flashdata('error', 'Gagal memperbarui data konsumen.');
+                }
+            } else {
+                $this->session->set_flashdata('error', 'Data tidak valid.');
             }
+            redirect('konsumen/konsumen');
+        }
 
 
         function lihat_konsumen($id){
