@@ -119,7 +119,34 @@
                 'product_jasa'   => $this->input->post('product_jasa'),
             );
 
-            $add = $this->M_master->addData($table, $data);
+            // Ambil bahan_id terakhir, tambah 1 jika insert baru
+            $bahanid = $this->input->post('bahan_id');
+            if (empty($bahanid)) {
+                $last_id = $this->db->select('bahan_id')->from($table)->order_by('bahan_id', 'DESC')->limit(1)->get()->row();
+                $bahanid = $last_id ? ($last_id->bahan_id + 1) : 1;
+            }
+
+            if (!empty($this->input->post('bahan_id'))) {
+                // Jika bahan_id sudah ada, update data
+                $this->db->where('bahan_id', $bahanid);
+                $update = $this->db->update($table, $data);
+                if ($update) {
+                    $this->session->set_flashdata('success', 'Data Berhasil Diupdate');
+                } else {
+                    $this->session->set_flashdata('error', 'Gagal mengupdate data');
+                }
+                redirect('bahan');
+            }
+            $datastok   = array(
+                'bahan_id'          => $bahanid,
+                'stok_awal'         => 0, // Inisialisasi stok awal
+                'stok_tambah'       => 0, // Inisialisasi stok awal
+                'stok_kurang'       => 0, // Inisialisasi stok awal
+                'stok_min'          => 0, // Inisialisasi stok awal
+            );
+
+            $add = $this->M_master->addData('tbl_bahan', array_merge($data, ['bahan_id' => $bahanid]));
+            $add = $this->M_master->addData('tbl_stok_gudang', $datastok);
 
             $barcodeDir = FCPATH . 'assets/uploads/barcode/';
             if (!is_dir($barcodeDir)) {
